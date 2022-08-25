@@ -15,13 +15,14 @@
             textEvent = "#" + modalName;
         }
         $(textEvent).click((e) => {
+            /*$('#deleteDialog').modal('show');*/
             item_to_delete = e.currentTarget.dataset.id;
             deleteItem(sourceEvent, deletePath, eventClassOrId);
         });      
     }
 
     function deleteItem(sourceEvent, deletePath, eventClassOrId) {
-        var textEvent;
+        var textEvent;      
         if (eventClassOrId) {
             textEvent = "." + sourceEvent;
         } else {
