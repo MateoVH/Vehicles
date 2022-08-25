@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.API.Data;
 using Vehicles.API.Data.Entities;
@@ -22,27 +17,9 @@ namespace Vehicles.API.Controllers
         // GET: VehicleTypes
         public async Task<IActionResult> Index()
         {
-              return _context.VehicleTypes != null ? 
-                          View(await _context.VehicleTypes.ToListAsync()) :
-                          Problem("Entity set 'DataContext.VehicleTypes'  is null.");
-        }
-
-        // GET: VehicleTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.VehicleTypes == null)
-            {
-                return NotFound();
-            }
-
-            var vehicleType = await _context.VehicleTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (vehicleType == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicleType);
+            return _context.VehicleTypes != null ?
+                        View(await _context.VehicleTypes.ToListAsync()) :
+                        Problem("Entity set 'DataContext.VehicleTypes'  is null.");
         }
 
         // GET: VehicleTypes/Create
@@ -60,8 +37,8 @@ namespace Vehicles.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicleType);
-                await _context.SaveChangesAsync();
+                _ = _context.Add(vehicleType);
+                _ = await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicleType);
@@ -75,12 +52,8 @@ namespace Vehicles.API.Controllers
                 return NotFound();
             }
 
-            var vehicleType = await _context.VehicleTypes.FindAsync(id);
-            if (vehicleType == null)
-            {
-                return NotFound();
-            }
-            return View(vehicleType);
+            VehicleType? vehicleType = await _context.VehicleTypes.FindAsync(id);
+            return vehicleType == null ? NotFound() : View(vehicleType);
         }
 
         // POST: VehicleTypes/Edit/5
@@ -99,8 +72,8 @@ namespace Vehicles.API.Controllers
             {
                 try
                 {
-                    _context.Update(vehicleType);
-                    await _context.SaveChangesAsync();
+                    _ = _context.Update(vehicleType);
+                    _ = await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,38 +99,25 @@ namespace Vehicles.API.Controllers
                 return NotFound();
             }
 
-            var vehicleType = await _context.VehicleTypes
+            VehicleType? vehicleType = await _context.VehicleTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (vehicleType == null)
+
+            if (vehicleType != null)
+            {
+                _ = _context.VehicleTypes.Remove(vehicleType);
+            }
+            else
             {
                 return NotFound();
             }
 
-            return View(vehicleType);
-        }
-
-        // POST: VehicleTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.VehicleTypes == null)
-            {
-                return Problem("Entity set 'DataContext.VehicleTypes'  is null.");
-            }
-            var vehicleType = await _context.VehicleTypes.FindAsync(id);
-            if (vehicleType != null)
-            {
-                _context.VehicleTypes.Remove(vehicleType);
-            }
-            
-            await _context.SaveChangesAsync();
+            _ = await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleTypeExists(int id)
         {
-          return (_context.VehicleTypes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.VehicleTypes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
