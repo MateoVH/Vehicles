@@ -15,7 +15,6 @@
             textEvent = "#" + modalName;
         }
         $(textEvent).click((e) => {
-            /*$('#deleteDialog').modal('show');*/
             item_to_delete = e.currentTarget.dataset.id;
             deleteItem(sourceEvent, deletePath, eventClassOrId);
         });      
