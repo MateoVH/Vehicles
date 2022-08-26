@@ -11,12 +11,16 @@ namespace Vehicles.API.Data
 
         public DbSet<VehicleType> VehicleTypes => Set <VehicleType> ();
         public DbSet<Procedure> Procedures => Set<Procedure>();
+        public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
+        public DbSet<Brand> Brands => Set<Brand>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             _ = modelBuilder.Entity<VehicleType>().HasIndex(x => x.Description).IsUnique();
             _ = modelBuilder.Entity<Procedure>().HasIndex(x => x.Description).IsUnique();
+            _ = modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
+            _ = modelBuilder.Entity<Brand>().HasIndex(x => x.Description).IsUnique();
         }
     }
 }
