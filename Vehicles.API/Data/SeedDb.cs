@@ -18,14 +18,14 @@ namespace Vehicles.API.Data
 
         public async Task SeedAsync()
         {
-            await _context.Database.EnsureCreatedAsync();
-            await CheckUserAsync("1010", "Equisde", "Dee", "arroba@yopmail.com", "564654654", "Calle luna", UserType.User);
-            await CheckUserAsync("85", "Dee", "Dee", "arroba@yopmail.com", "564654654", "Calle luna", UserType.Admin);
+            await _context.Database.EnsureCreatedAsync();           
             await CheckProceduresAsync();
             await CheckVehicleTypesAsync();
             await CheckBrandsAsync();
             await CheckDocumentTypesAsync();
-            await CheckRolesAsync();           
+            await CheckRolesAsync();
+            await CheckUserAsync("1010", "Equisde", "Dee", "arroba@yopmail.com", "564654654", "Calle luna", UserType.User);
+            await CheckUserAsync("85", "Dee", "Dee", "parroba@yopmail.com", "564654654", "Calle luna", UserType.Admin);
         }
 
         private async Task CheckUserAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
@@ -41,7 +41,9 @@ namespace Vehicles.API.Data
                     LastName = lastName,
                     Email = email,
                     PhoneNumber = phoneNumber,
-                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula")
+                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula"),
+                    UserType = userType,
+                    UserName = email
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
