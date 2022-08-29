@@ -44,6 +44,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();//USAR ESTO PARA QEU FUNCIONE USER.IDENTITY.ISAUTENTICATED
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
