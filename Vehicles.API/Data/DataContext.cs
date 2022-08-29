@@ -14,6 +14,10 @@ namespace Vehicles.API.Data
         public DbSet<Procedure> Procedures => Set<Procedure>();
         public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
         public DbSet<Brand> Brands => Set<Brand>();
+        public DbSet<Vehicle> Vehicles => Set<Vehicle>();
+        public DbSet<Detail> Details => Set<Detail>();
+        public DbSet<History> Histories => Set<History>();
+        public DbSet<VehiclePhoto> VehiclePhotos => Set<VehiclePhoto>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +26,7 @@ namespace Vehicles.API.Data
             _ = modelBuilder.Entity<Procedure>().HasIndex(x => x.Description).IsUnique();
             _ = modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
             _ = modelBuilder.Entity<Brand>().HasIndex(x => x.Description).IsUnique();
+            _ = modelBuilder.Entity<Vehicle>().HasIndex(x => x.Plaque).IsUnique();
         }
     }
 }
